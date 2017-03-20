@@ -10,11 +10,11 @@ describe("solution", () => {
 
     describe("sheet", () => {
         describe("cells", () => {
-            it.skip("should populate two cells with numeric values and response the stored values", () => {
+            it("should populate two cells with numeric values and response the stored values", () => {
 
-                // ... 
-                // Code here!
-                // ... 
+                var sheet = new SpreadSheet();
+                sheet.setNumber('a1', 1);
+                sheet.setNumber('a2', 2);
 
                 chai.expect( sheet.get("a1") )
                     .to.be.eql(1);
