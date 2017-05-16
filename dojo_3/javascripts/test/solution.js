@@ -11,10 +11,10 @@ describe("bomberman", () => {
 
         it("steps into a cell which is empty then it moves in", () => {
 
-            let bornPosition = new Cell(new Empty());
+            let bornPosition = new Cell();
             let bomberman = new Bomberman(bornPosition);
 
-            let emptyCell = new Cell(new Empty());
+            let emptyCell = new Cell();
 
             bomberman.stepInto(emptyCell);
 
@@ -25,7 +25,7 @@ describe("bomberman", () => {
 
             let occupiedCell = new Cell(new Brick());
 
-            let bomberman = new Bomberman(new Cell(new Empty()));
+            let bomberman = new Bomberman(new Cell());
 
             chai.assert.throws( () => {
                 bomberman.stepInto(occupiedCell);
@@ -35,7 +35,7 @@ describe("bomberman", () => {
         it("steps into a cell which is busy with an enemy then it dies", () => {
 
             let cellWithEnemy = new Cell(new Enemy()); // enemy
-            let bornPosition = new Cell(new Empty());
+            let bornPosition = new Cell();
 
             let bomberman = new Bomberman(bornPosition);
 
@@ -48,12 +48,12 @@ describe("bomberman", () => {
             chai.assert.equal(bomberman.isIn(cellWithEnemy), false); // TODO... como hacemos acá?!
         });
 
-        it("leaves a boom next to a brick, the boom explotes and the bricks disappears", () => {
+        it.skip("leaves a boom next to a brick, the boom explotes and the bricks disappears", () => {
 
             let cellWithBrick = new Cell(new Brick());
-            let nextToBrickCell = new Cell(new Empty());
+            let nextToBrickCell = new Cell();
 
-            let bornPosition = new Cell(new Empty());
+            let bornPosition = new Cell();
             let bomberman = new Bomberman(bornPosition);
 
             bomberman.leaveBomb(nextToBrickCell);

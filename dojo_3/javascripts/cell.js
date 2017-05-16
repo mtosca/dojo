@@ -3,7 +3,7 @@ const Empty = require('./empty.js');
 
 function Cell(_occupant) {
 
-    this.occupant = _occupant;
+    this.occupant = _occupant || new Empty();
 }
 
 Cell.prototype.claimedBy = function(claimer) {
