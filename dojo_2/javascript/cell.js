@@ -1,17 +1,18 @@
-/**
- * Created by mtosca on 2/17/17.
- */
+module.exports = Cell;
 
-function Cell() {
+function Cell(cellAddress, content) {
+    this.cellAddress = cellAddress;
+    this.content = content;
+};
 
-    var content;
-    var address;
+Cell.prototype.isAddressedBy = function(cellAddress) {
+    return this.cellAddress.isEqual(cellAddress);
+};
 
-    Cell.prototype.setNumber = function(number) {
-        this.content = new NumericContent(number);
-    };
+Cell.prototype.getContent = function() {
+    return this.content.value();
+};
 
-    Cell.prototype.getAddress = function() {
-        return this.address;
-    };
-}
+Cell.prototype.setContent = function(content) {
+    return this.content = content;
+};
