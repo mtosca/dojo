@@ -13,6 +13,7 @@
 9. Es difícil escribir nuevos tests?
 10. Tenemos métodos que nos permiten preguntarle a un objeto acerca de su estado (```Payment>>isApproved```, ```Payment>>isCreditCard```, ```Shipping>>isSamedayDelivery```, etc.).
 11. Sabemos cuál es el impacto de estas prácticas?
+12. Y como podemos evitarlas?
 
 Si algunas de estas cosas se tornaron cotidianas, podríamos decir que nuestro código es de mala calidad!
 

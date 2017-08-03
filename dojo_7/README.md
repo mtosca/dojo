@@ -1,17 +1,11 @@
 ### Venta de items
 
-El objetivo de este dojo es implementar parcialmente el modelo precios y costos para compra/venta de items con el fin de poder calcular un márgen de ganancia.
+El objetivo de este dojo es implementar parcialmente el modelo de medios de pagos para poder desplegar los montos, en la review, que cada uno de estos aportas a la hora de pagar una orden.
 
-Existen varios esquemas de precios de ventas:
-- N unidades por un dolar.
-- $ M por peso.
-- Compra dos paga 1.
-- Uno sorpresa (vemos si llegamos)
-
-Existen varios esquemas de precios de compra:
-- $ M por peso.
-- $ M por N unidades.
-
+Existen varios medios de pagos:
+- Dinero en cuenta 
+- Gift card.
+- TC
 
 La funcionalidad que buscamos implementar **no** cuenta con pruebas y se busca que decidamos que pruebas deberíamos escribir, ya sean de integración o de unidad.
 
