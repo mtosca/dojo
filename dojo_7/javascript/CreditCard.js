@@ -5,20 +5,20 @@ function CreditCard(_selectedInstallment) {
     this.selectedInstallment =  _selectedInstallment || new Installment();
 }
 
-CreditCard.prototype.paidAmount = function () {
-    return this.amount;
-};
-
 CreditCard.prototype.name = function () {
     return 'Tarjeta de crédito';
 };
 
 CreditCard.prototype.printNameAndAmount = function () {
-    return this.name() + ': ' + this.selectedInstallment.print();
+    return this.name() + ': ' + this.selectedInstallment.print(this.amount);
 };
 
 CreditCard.prototype.contributesWith = function (_amount) {
-    this.selectedInstallment.splitAmount(_amount);
+    return _amount;
 };
+
+CreditCard.prototype.compare = function (a, b) {
+    return 1
+}
 
 module.exports = CreditCard;

@@ -3,29 +3,51 @@ const AgreeWithSeller = require('./AgreeWithSeller.js');
 function Order(_amount, _shipment) {
 
     this.amount = _amount;
-    this.paidAmount = 0;
     this.paymentList = [];
     this.shipment = _shipment || new AgreeWithSeller();
 
 }
 
 Order.prototype.printPaymentMessage = function () {
-    let payment = this.paymentList[0];
-    //return payment.name() + ': ' + payment.paidAmount();
-    return payment.printNameAndAmount();
-}
 
-Order.prototype.payWith = function (payment) {
-    let totalCost = this.amount + this.shipment.cost;
-
-    // esto genera que los objetos sean stateful,
-    // se puede evitar y que el payment solamente resuelva el mensaje sin mantener el monto.
-    payment.contributesWith(totalCost);
-    this.paymentList.push(payment);
+    return this.paymentList.map(function(payment) {
+        return payment.printNameAndAmount();
+    }).join(' - ');
 };
 
-/*Order.prototype.isPaid = function () {
-    return this.amount - this.paidAmount == 0;
-};*/
+Order.prototype.payWith = function (payment) {
+
+    let that = this;
+    this.paymentList.push(payment);
+
+    this.paymentList.sort(function (a, b) {
+        return a.compare(b);
+    });
+
+    this.paymentList.forEach( function (p) {
+        p.contributesWith(that.remaining());
+    });
+};
+
+Order.prototype.payWithList = function (paymentList) {
+
+    paymentList.forEach(p => this.payWith(p));
+};
+
+Order.prototype.totalCost = function () {
+    return this.amount + this.shipment.cost;
+};
+
+Order.prototype.remaining = function () {
+    return this.totalCost() - this.paid();
+};
+
+Order.prototype.paid = function () {
+    let sum = 0;
+    this.paymentList.forEach(function (payment) {
+        sum += payment.contributesWith();
+    });
+    return sum;
+};
 
 module.exports = Order;

@@ -9,5 +9,9 @@ import org.junit.Test;
 public class DojoTest {
 
 
-	
+    @Test
+    public void test() throws Exception {
+
+    }
+
 }
