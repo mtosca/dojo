@@ -1,7 +1,9 @@
+const Distance = require('./distance');
+
 function Site(_name, _distance) {
 
     this.name = _name;
-    this.distance = _distance || 0;
+    this.distance = _distance || new Distance();
 }
 
 Site.prototype.distanceFromZero = function () {

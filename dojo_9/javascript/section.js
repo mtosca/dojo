@@ -3,7 +3,7 @@ function Section(_from, _to) {
     this.to = _to;
 }
 Section.prototype.travelDistance = function () {
-    return this.to.distanceFromZero() - this.from.distanceFromZero();
+    return this.to.distanceFromZero().minus(this.from.distanceFromZero());
 };
 
 module.exports = Section;

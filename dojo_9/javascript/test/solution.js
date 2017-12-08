@@ -7,6 +7,7 @@ const Journey = require('../journey');
 const Bus = require('../bus');
 const Train = require('../train');
 const Price = require('../price');
+const Distance = require('../distance');
 
 describe("Travel system", () => {
 
@@ -15,7 +16,7 @@ describe("Travel system", () => {
         it("Travel from Bs As to Mardel by bus costs $1200", () => {
 
             let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', 400);
+            let to = new Site('Mardel', new Distance(400, 'km'));
 
             let trip = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -27,7 +28,7 @@ describe("Travel system", () => {
         it("Travel from Bs As to Mardel by train costs $800", () => {
 
             let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', 400);
+            let to = new Site('Mardel', new Distance(400, 'km'));
 
             let trip = new Journey([
                 new Trip(new Section(from, to), new Train('TBA'))
@@ -42,7 +43,7 @@ describe("Travel system", () => {
         it("Travel from Bs As to Trelew by bus costs $4200", () => {
 
             let from = new Site('Buenos Aires');
-            let to = new Site('Trelew', 1400);
+            let to = new Site('Trelew', new Distance(1400, 'km'));
 
             let trip = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -54,8 +55,8 @@ describe("Travel system", () => {
         it("Travel from Bs As to Trelew by bus with Bahia Blanca stopover costs $4200", () => {
 
             let from = new Site('Buenos Aires');
-            let stopover = new Site('Bahia Blanca', 700);
-            let to = new Site('Trelew', 1400);
+            let stopover = new Site('Bahia Blanca', new Distance(700, 'km'));
+            let to = new Site('Trelew', new Distance(1400, 'km'));
 
             let trip = new Journey([
                 new Trip(new Section(from, stopover), new Bus('Andesmar')),
@@ -68,8 +69,8 @@ describe("Travel system", () => {
         it("Travel from Bs As to Trelew by bus and train with Bahia Blanca stopover costs $3500", () => {
 
             let from = new Site('Buenos Aires');
-            let stopover = new Site('Bahia Blanca', 700);
-            let to = new Site('Trelew', 1400);
+            let stopover = new Site('Bahia Blanca', new Distance(700, 'km'));
+            let to = new Site('Trelew', new Distance(1400, 'km'));
 
             let trip = new Journey([
                 new Trip(new Section(from, stopover), new Bus('Andesmar')),
