@@ -8,6 +8,8 @@ const Bus = require('../bus');
 const Train = require('../train');
 const Price = require('../price');
 const Distance = require('../distance');
+const Budget = require('../budget');
+const QueryDate = require('../query_date');
 
 describe("Travel system", () => {
 
@@ -35,6 +37,33 @@ describe("Travel system", () => {
             ]);
 
             chai.assert.equal(trip.cost().equals(new Price(800)), true);
+        });
+
+
+        it("Trip sale price is 10% over the cost", () => {
+
+            let from = new Site('Buenos Aires');
+            let to = new Site('Mardel', new Distance(400, 'km'));
+
+            let trip = new Journey([
+                new Trip(new Section(from, to), new Bus('Andesmar'))
+            ]);
+
+            chai.assert.equal(trip.salePrice().equals(new Price(1320)), true);
+        });
+
+        it("180 days before journey no seat has been sold. Sales price is reduced 10%", () => {
+
+            let from = new Site('Buenos Aires');
+            let to = new Site('Mardel', new Distance(400, 'km'));
+
+            let journey = new Journey([
+                new Trip(new Section(from, to), new Bus('Andesmar'))
+            ]);
+
+            let budget = new Budget(journey, new QueryDate(180));
+
+            chai.assert.equal(budget.salePrice().equals(new Price(1188)), true);
         });
     });
 

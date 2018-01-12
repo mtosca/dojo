@@ -7,4 +7,8 @@ Trip.prototype.cost = function () {
     return this.transport.costForSection(this.section);
 };
 
+Trip.prototype.salePrice = function () {
+    return this.transport.salePriceForSection(this.section);
+};
+
 module.exports = Trip;
