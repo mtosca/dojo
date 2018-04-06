@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
-import static org.mockito.Mockito.mock;
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Tests for the dojo.
@@ -62,6 +62,30 @@ public class DojoTest {
         int inconsistency = InconsistencyCalculator.getInconsistencyValue(checkoutContext);
         Assert.assertEquals(IInconsistency.ONLY_PUIS, inconsistency);
     }
+
+    @Test
+    public void test_none_vs_only_puis() throws Exception {
+        CheckoutOptionsDto dto = new GsonBuilder().create().fromJson(loadFile("only_puis.json"), CheckoutOptionsDto.class);
+        CheckoutOptions options = new CheckoutOptions(dto);
+
+        NoneInconsitencia none = new NoneInconsitencia( options );
+        OnlyPuis onlyPuis = new OnlyPuis( options );
+
+        assertEquals(onlyPuis, none.challenge(onlyPuis));
+    }
+
+    @Test
+    public void test_only_puis_vs_none() throws Exception {
+        CheckoutOptionsDto dto = new GsonBuilder().create().fromJson(loadFile("only_puis.json"), CheckoutOptionsDto.class);
+        CheckoutOptions options = new CheckoutOptions(dto);
+
+        NoneInconsitencia none = new NoneInconsitencia( options );
+        OnlyPuis onlyPuis = new OnlyPuis( options );
+
+        assertEquals(onlyPuis, onlyPuis.challenge(none));
+    }
+
+
 
     private InputStreamReader loadFile(String filename) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(filename));

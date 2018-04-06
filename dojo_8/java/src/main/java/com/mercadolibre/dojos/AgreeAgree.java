@@ -10,6 +10,10 @@ public class AgreeAgree extends Inconsistency {
 
     }
 
+    public Inconsistency challenge(Inconsistency otherInconsistency) {
+        return this;
+    }
+
     public Inconsistency happens() {
         if ( getCheckoutOptions().isAgreeAgree() ) {
             return this;

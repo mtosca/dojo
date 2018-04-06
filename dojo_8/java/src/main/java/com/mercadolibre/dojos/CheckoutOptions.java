@@ -3,7 +3,6 @@ package com.mercadolibre.dojos;
 import com.mercadolibre.dojos.dto.*;
 import com.mercadolibre.dojos.util.PaymentMethodType;
 import com.mercadolibre.dojos.util.ShippingMethodType;
-import com.sun.tools.javac.comp.Check;
 
 import java.util.List;
 
@@ -57,9 +56,12 @@ public class CheckoutOptions {
      */
     public boolean itemCanOnlyBeSent() {
         // Verify shipping selections
-        ShippingDto shippingDto = dto.getShipping();
+        final ShippingDto shippingDto = dto.getShipping();
         return shippingDto.getShippingMethods().getShippingSelections().size() == 1
-                && ShippingMethodType.isCustomShipping(shippingDto.getShippingMethods().getShippingSelections().get(0).getShippingType());
+                && ShippingMethodType.isCustomShipping(
+                        shippingDto.getShippingMethods().getShippingSelections()
+                                .get(0).getShippingType()
+                );
     }
 
     /**

@@ -9,6 +9,10 @@ public class NoneInconsitencia extends Inconsistency {
         super(checkoutOptions);
     }
 
+    public Inconsistency challenge(Inconsistency otherInconsistency) {
+        return otherInconsistency;
+    }
+
     public Inconsistency happens() {
         return this;
     }

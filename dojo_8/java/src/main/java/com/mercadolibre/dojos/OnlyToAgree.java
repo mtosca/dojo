@@ -8,6 +8,10 @@ public class OnlyToAgree extends Inconsistency {
         super(checkoutOptions);
     }
 
+    public Inconsistency challenge(Inconsistency otherInconsistency) {
+        return this;
+    }
+
     public Inconsistency happens() {
         if ( getCheckoutOptions().isShippingToAgreeOnly() ) {
             return this;

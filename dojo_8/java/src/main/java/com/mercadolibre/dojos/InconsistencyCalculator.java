@@ -1,19 +1,16 @@
 package com.mercadolibre.dojos;
 
 
-import com.mercadolibre.dojos.dto.*;
-import com.mercadolibre.dojos.util.PaymentMethodType;
-import com.mercadolibre.dojos.util.ShippingMethodType;
+import com.mercadolibre.dojos.dto.CheckoutOptionsDto;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Helper class that calculates the next step for the fallback shipping selection.
  * Created by jpperetti on 6/6/16.
  */
-public final class InconsistencyCalculator {
+final class InconsistencyCalculator {
 
     /**
      * Calculates the inconsistency (in case that there is one) related to the shipping
@@ -23,29 +20,30 @@ public final class InconsistencyCalculator {
      * @return an IInconsistency value that indicates the current case.
      */
     @IInconsistency
-    public static int getInconsistencyValue(CheckoutContext checkoutContext) {
-        CheckoutOptionsDto checkoutOptions = checkoutContext.getCheckoutOptionsDto();
-        NoneInconsitencia none = new NoneInconsitencia( new CheckoutOptions(checkoutOptions));
-        Inconsistency inconsistency = none;
-        
+    static int getInconsistencyValue(CheckoutContext checkoutContext) {
+        final List<Inconsistency> inconsistencies = getOrderedInconsistencies(checkoutContext);
+        return findTheOneInconsistencyThatIsHappening(inconsistencies).getNumber();
+    }
 
-        Inconsistency inconsistencies[] = {
-                new OnlyCanBeSent( new CheckoutOptions(checkoutOptions)),
-                new CantSentXunits(new CheckoutOptions(checkoutOptions)),
-                new AgreeAgree( new CheckoutOptions(checkoutOptions)),
-                new OnlyToAgree( new CheckoutOptions(checkoutOptions)),
-                new OnlyPuis( new CheckoutOptions(checkoutOptions))
-        };
+    static List<Inconsistency> getOrderedInconsistencies(CheckoutContext checkoutContext) {
+        final CheckoutOptionsDto checkoutOptions = checkoutContext.getCheckoutOptionsDto();
+        final CheckoutOptions options = new CheckoutOptions(checkoutOptions);
 
-        for( Inconsistency i : inconsistencies) {
-            if ( !i.happens().equals( none ) ) {
-                inconsistency = i;
-                break;
-            }
-        };
+        return Arrays.asList(
+                new NoneInconsitencia(options),
+                new OnlyCanBeSent(options),
+                new CantSentXunits(options),
+                new AgreeAgree(options),
+                new OnlyToAgree(options),
+                new OnlyPuis(options)
+        );
+    }
 
-        return inconsistency.getNumber();
-
+    static Inconsistency findTheOneInconsistencyThatIsHappening(List<Inconsistency> inconsistencies) {
+        return inconsistencies.stream()
+                .map(Inconsistency::happens)
+                .reduce(Inconsistency::challenge)
+                .get();
     }
 
 

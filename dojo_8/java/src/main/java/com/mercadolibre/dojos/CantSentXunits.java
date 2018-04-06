@@ -10,6 +10,10 @@ public class CantSentXunits extends Inconsistency {
         super(checkoutOptions);
     }
 
+    public Inconsistency challenge(Inconsistency otherInconsistency) {
+        return this;
+    }
+
     public Inconsistency happens() {
         if ( getCheckoutOptions().itemCantSendUnitsAndHasLocalPickup() ) {
             return this;

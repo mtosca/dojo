@@ -4,16 +4,18 @@ package com.mercadolibre.dojos;
  * Created by dsanchez on 11/10/17.
  */
 public class OnlyCanBeSent extends Inconsistency {
-    CheckoutOptions checkoutOptions;
 
-    public OnlyCanBeSent(CheckoutOptions checkoutOptions) {
+    OnlyCanBeSent(CheckoutOptions checkoutOptions) {
         super(checkoutOptions);
     }
 
+    public Inconsistency challenge(Inconsistency otherInconsistency) {
+        return this;
+    }
+
     public Inconsistency happens() {
-        if ( getCheckoutOptions().itemCanOnlyBeSent() ) {
+        if ( getCheckoutOptions().itemCanOnlyBeSent() )
             return this;
-        }
 
         return new NoneInconsitencia( getCheckoutOptions() );
     }
