@@ -1,0 +1,28 @@
+{
+  "status": "success",
+  "substatus": null,
+  "heading": "¡Apúrate a pagar!",
+  "title": "Paga ${price} en ${paymentMethodName} para reservar tu compra",
+  "sections": [{
+    "type": "offline_payment",
+    "model": {
+      "payment_data": {
+        "values": [{
+          "name": "Número de CI",
+          "value": "1.111.111-1"
+        }],
+        "actions": []
+      },
+      "title": "Te pedirán estos datos:",
+      "actions": []
+    }
+  }, {
+    "type": "exit",
+    "model": {
+      "actions": [{
+        "id": "go_to_home",
+        "text": "Seguir comprando"
+      }]
+    }
+  }]
+}

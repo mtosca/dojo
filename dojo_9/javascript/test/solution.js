@@ -12,6 +12,8 @@ const PriceQuoter = require('../classes/price_quoter'); // -> Cotizador
 const QueryDate = require('../classes/query_date');
 const SeatsAvailabilityService = require('../classes/seats_availability_service');
 const Availability = require('../classes/availability');
+const BuenosAires = require('../classes/buenos_aires');
+const MarDelPlata = require('../classes/mar_del_plata');
 
 describe("Travel system", () => {
 
@@ -19,8 +21,8 @@ describe("Travel system", () => {
 
         it("Travel from Bs As to Mardel, by bus costs $1200", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let trip = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -31,8 +33,8 @@ describe("Travel system", () => {
 
         it("Travel from Bs As to Mardel, by train costs $800", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Train('TBA'))
@@ -43,8 +45,8 @@ describe("Travel system", () => {
 
         it("Travel to Mardel by Bus, sale price is 10% over the cost", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let trip = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -55,8 +57,8 @@ describe("Travel system", () => {
 
         it("Travel from Bs As to Mardel by train, sale price is 10% over the cost", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Train('TBA'))
@@ -67,8 +69,8 @@ describe("Travel system", () => {
 
         it("180 days before journey, no seat has been sold. Sales price is reduced 10%", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -84,8 +86,8 @@ describe("Travel system", () => {
 
         it("180 days before journey, 80% has been sold. Price increases 20%", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -101,8 +103,8 @@ describe("Travel system", () => {
 
         it("90 days before journey, 90% has been sold. Price increases 50%", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -118,8 +120,8 @@ describe("Travel system", () => {
 
         it("90 days before journey, less than 90% has been sold. Price decreases 20%", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -135,8 +137,8 @@ describe("Travel system", () => {
 
         it("15 days before journey price increases 10%, no exceptions", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -152,8 +154,8 @@ describe("Travel system", () => {
 
         it("A week before journey price increases $100 fixed, no exceptions", () => {
 
-            let from = new Site('Buenos Aires');
-            let to = new Site('Mardel', new Distance(400, 'km'));
+            let from = new BuenosAires();
+            let to = new MarDelPlata();
 
             let journey = new Journey([
                 new Trip(new Section(from, to), new Bus('Andesmar'))
@@ -172,7 +174,7 @@ describe("Travel system", () => {
 
         it("Travel from Bs As to Trelew by bus costs $4200", () => {
 
-            let from = new Site('Buenos Aires');
+            let from = new BuenosAires();
             let to = new Site('Trelew', new Distance(1400, 'km'));
 
             let trip = new Journey([
@@ -184,7 +186,7 @@ describe("Travel system", () => {
 
         it("Travel from Bs As to Trelew by bus, with Bahia Blanca stopover, costs $4200", () => {
 
-            let from = new Site('Buenos Aires');
+            let from = new BuenosAires();
             let stopover = new Site('Bahia Blanca', new Distance(700, 'km'));
             let to = new Site('Trelew', new Distance(1400, 'km'));
 
@@ -198,7 +200,7 @@ describe("Travel system", () => {
 
         it("Travel from Bs As to Trelew by bus and train, with Bahia Blanca stopover, costs $3500", () => {
 
-            let from = new Site('Buenos Aires');
+            let from = new BuenosAires();
             let stopover = new Site('Bahia Blanca', new Distance(700, 'km'));
             let to = new Site('Trelew', new Distance(1400, 'km'));
 
@@ -212,7 +214,7 @@ describe("Travel system", () => {
 
         it("From Bs As to Trelew by bus and train, with Bahia Blanca stopover, sale price is $3850", () => {
 
-            let from = new Site('Buenos Aires');
+            let from = new BuenosAires();
             let stopover = new Site('Bahia Blanca', new Distance(700, 'km'));
             let to = new Site('Trelew', new Distance(1400, 'km'));
 

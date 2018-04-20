@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="JSONMapperTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-04-06T19:10:57" hostname="ARAR000130" time="0.02">
+  <properties/>
+  <testcase name="test_load_json_from_resources" classname="JSONMapperTest" time="0.02"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
