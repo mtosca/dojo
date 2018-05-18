@@ -1,21 +1,19 @@
 package steps;
 
-import shippings.EnvioADomicilio;
-import shippings.RetiroEnCorreo;
-import shippings.ShippingOption;
+public class SeleccionDeEnvio implements CheckoutStep {
 
-public class SeleccionDeEnvio extends CheckoutStep{
+    private final CheckoutStep suggestedStep;
 
-    public SeleccionDeEnvio(boolean editMode) {
-        setEditMode(editMode);
+    public SeleccionDeEnvio() {
+        this.suggestedStep = new SeleccionDeMedioDePago();
+    }
+
+    public SeleccionDeEnvio(CheckoutStep suggestedStep) {
+        this.suggestedStep = suggestedStep;
     }
 
     public CheckoutStep envioADomicilio() {
-        if (!CheckoutStep.isEditMode()) {
-            return new SeleccionDeMedioDePago();
-        } else {
-            return new Review();
-        }
+        return suggestedStep;
     }
 
     public CheckoutStep retiroEnCorreo() {

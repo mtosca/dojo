@@ -1,12 +1,12 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import shippings.EnvioADomicilio;
-import shippings.RetiroEnCorreo;
+import payments.MasterCard0002;
+import payments.Visa0001;
 import steps.*;
 
 /**
- * Tests for the dojo.
+ * Created by R. Bevilacqua
  */
 public class DojoTest {
 	
@@ -28,7 +28,7 @@ public class DojoTest {
 	    // Paso 1 -> ¿Como queres recibir el producto? 00_01 -> Enviar a mi ubicacion actual
         // Paso 2 -> Envio a Villa Urquiza 01_01
         // Zeplin: https://zpl.io/25zKgWV
-        SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio(false);
+        SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio();
 
         CheckoutStep nextStep = seleccionDeEnvio.envioADomicilio();
 
@@ -60,4 +60,86 @@ public class DojoTest {
 
         Assert.assertEquals(MapaDeSucursales.class, nextStep.getClass());
     }
+/*
+    @Test
+    public void cuandoSeleccionoRetiroEnCorreo_tieneQueSeleccionarAgenciaDeCorreo() {
+	    SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio();
+
+	    SeleccionarAgenciaDeCorreo seleccionarAgenciaDeCorreo = (SeleccionarAgenciaDeCorreo) seleccionDeEnvio.retiroEnCorreo();
+
+	    MapaDeSucursales mapaDeSucursales = seleccionarAgenciaDeCorreo.correoArgentino();
+
+	    SeleccionDeMedioDePago seleccionDeMedioDePago = mapaDeSucursales.sucursalCentro();
+
+	    Review review = seleccionDeMedioDePago.dineroEnCuenta();
+
+	    Assert.assertEquals(Review.class, review.getClass());
+    }
+*/
+    @Test
+    public void modificoMedioDePagoDesdeReview_tarjetaPrecargada_gatewaySolicitaSecCode_VuelveReview() {
+        Review review = new Review();
+
+        SeleccionDeMedioDePago seleccionDeMedioDePago = review.modificarMedioDePago();
+
+        SecCode secCode = (SecCode) seleccionDeMedioDePago
+                .tarjetaPrecargada(new Visa0001(), new GatewayApiRequiredSecCode());
+
+        Review review1 = secCode.acceptSecCode();
+
+        Assert.assertEquals(Review.class, review1.getClass());
+    }
+
+    @Test
+    public void modificoMedioDePagoDesdeReview_tarjetaPrecargada_gatewayVuelveReview() {
+        Review review = new Review();
+
+        SeleccionDeMedioDePago seleccionDeMedioDePago = review.modificarMedioDePago();
+
+        MasterCard0002 masterCard0002 = new MasterCard0002();
+
+        CheckoutStep nuevaReview = seleccionDeMedioDePago
+                .tarjetaPrecargada(masterCard0002, new GatewayApiNotRequiredSecCode());
+
+        Assert.assertEquals(Review.class, nuevaReview.getClass());
+    }
+
+    @Test
+    public void modificoMedioDePagoDesdeReview_altaDeTarjeta_pideSecCode_vuelveReview() {
+        Review review = new Review();
+
+        SeleccionDeMedioDePago seleccionDeMedioDePago = review.modificarMedioDePago();
+
+        AltaDeTarjeta altaDeTarjeta = seleccionDeMedioDePago.altaDeTarjeta();
+
+        SecCode secCode = altaDeTarjeta.nuevaTarjeta();
+
+        Review nuevaReview = secCode.acceptSecCode();
+
+        Assert.assertEquals(Review.class, nuevaReview.getClass());
+    }
+
+    @Test
+    public void modificoMedioDePagoDesdeReview_altaDeTarjetaConFoto_pideSecCode_vuelveReview() {
+        Review review = new Review();
+
+        SeleccionDeMedioDePago seleccionDeMedioDePago = review.modificarMedioDePago();
+
+        AltaDeTarjeta altaDeTarjeta = seleccionDeMedioDePago.altaDeTarjeta();
+
+        LectorQR lectorQR = altaDeTarjeta.escanearQR();
+
+        SecCode secCode = lectorQR.nuevaTarjeta();
+
+        Review nuevaReview = secCode.acceptSecCode();
+
+        Assert.assertEquals(Review.class, nuevaReview.getClass());
+    }
+
+    //Selecciona un envio con costo
+    //Selecciona un medio off con limite de monto
+    //Review modifica envio
+    //Selecciona un medio de envio con costo mayor al limite
+    //Despliega inconsistencia de medio de pago
+    //Vuelve a seleccion de medio de envio
 }

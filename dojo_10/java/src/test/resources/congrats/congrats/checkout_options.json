@@ -1,0 +1,9 @@
+{
+  "item": {
+    "amount" : 1000
+  },
+  "payment_options": {
+    "name" : "VISA 0004",
+    "max_allowed" : 500
+  }
+}
