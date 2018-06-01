@@ -1,5 +1,9 @@
 package steps;
 
+import payments.Boleto;
+import payments.InconsistenciaDeMedioDePago;
+import payments.MedioDePago;
+
 public class SeleccionDeEnvio implements CheckoutStep {
 
     private final CheckoutStep suggestedStep;
@@ -14,6 +18,14 @@ public class SeleccionDeEnvio implements CheckoutStep {
 
     public CheckoutStep envioADomicilio() {
         return suggestedStep;
+    }
+
+    public CheckoutStep expressADomicilio(MedioDePago medioDePago) {
+        if (!medioDePago.puedePagar()) {
+            return new InconsistenciaDeMedioDePago();
+        }
+
+        return this.suggestedStep;
     }
 
     public CheckoutStep retiroEnCorreo() {

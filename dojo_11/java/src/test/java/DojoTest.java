@@ -1,23 +1,27 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import payments.Boleto;
+import payments.InconsistenciaDeMedioDePago;
 import payments.MasterCard0002;
 import payments.Visa0001;
 import steps.*;
+
+import java.math.BigDecimal;
 
 /**
  * Created by R. Bevilacqua
  */
 public class DojoTest {
-	
-	@Before
-	public void setup() {
 
-	}
+    @Before
+    public void setup() {
 
-	@Test
-	public void cuando_EligeEnvioADomicilio_nextStepIs_SeleccionDeMedioDePago() {
-	    // Con Precargadas y Dinero En Cuenta o Tarjeta Precargada
+    }
+
+    @Test
+    public void cuando_EligeEnvioADomicilio_nextStepIs_SeleccionDeMedioDePago() {
+        // Con Precargadas y Dinero En Cuenta o Tarjeta Precargada
         // Paso 1 -> Selecciona Express a Domicilio
         // Paso 2 -> ¿Como quieres pagar? -> Dinero en Cuenta
         // Paso 3 -> Review -> Modificar Envio
@@ -25,7 +29,7 @@ public class DojoTest {
         // Paso 5 -> Selecciona Sucursal
         // Paso 6 -> Review
 
-	    // Paso 1 -> ¿Como queres recibir el producto? 00_01 -> Enviar a mi ubicacion actual
+        // Paso 1 -> ¿Como queres recibir el producto? 00_01 -> Enviar a mi ubicacion actual
         // Paso 2 -> Envio a Villa Urquiza 01_01
         // Zeplin: https://zpl.io/25zKgWV
         SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio();
@@ -34,11 +38,11 @@ public class DojoTest {
 
         // Zeplin: https://zpl.io/br1Km7L
         Assert.assertEquals(SeleccionDeMedioDePago.class, nextStep.getClass());
-	}
+    }
 
     @Test
     public void cuando_modificaEnvioDesdeReview_EligeEnvioADomicilio_nextStepIs_Review() {
-	    // Zeplin: https://zpl.io/be48RDa
+        // Zeplin: https://zpl.io/be48RDa
         Review review = new Review();
 
         SeleccionDeEnvio seleccionDeEnvio = review.modificarEnvio();
@@ -60,22 +64,23 @@ public class DojoTest {
 
         Assert.assertEquals(MapaDeSucursales.class, nextStep.getClass());
     }
-/*
-    @Test
-    public void cuandoSeleccionoRetiroEnCorreo_tieneQueSeleccionarAgenciaDeCorreo() {
-	    SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio();
 
-	    SeleccionarAgenciaDeCorreo seleccionarAgenciaDeCorreo = (SeleccionarAgenciaDeCorreo) seleccionDeEnvio.retiroEnCorreo();
+    /*
+        @Test
+        public void cuandoSeleccionoRetiroEnCorreo_tieneQueSeleccionarAgenciaDeCorreo() {
+            SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio();
 
-	    MapaDeSucursales mapaDeSucursales = seleccionarAgenciaDeCorreo.correoArgentino();
+            SeleccionarAgenciaDeCorreo seleccionarAgenciaDeCorreo = (SeleccionarAgenciaDeCorreo) seleccionDeEnvio.retiroEnCorreo();
 
-	    SeleccionDeMedioDePago seleccionDeMedioDePago = mapaDeSucursales.sucursalCentro();
+            MapaDeSucursales mapaDeSucursales = seleccionarAgenciaDeCorreo.correoArgentino();
 
-	    Review review = seleccionDeMedioDePago.dineroEnCuenta();
+            SeleccionDeMedioDePago seleccionDeMedioDePago = mapaDeSucursales.sucursalCentro();
 
-	    Assert.assertEquals(Review.class, review.getClass());
-    }
-*/
+            Review review = seleccionDeMedioDePago.dineroEnCuenta();
+
+            Assert.assertEquals(Review.class, review.getClass());
+        }
+    */
     @Test
     public void modificoMedioDePagoDesdeReview_tarjetaPrecargada_gatewaySolicitaSecCode_VuelveReview() {
         Review review = new Review();
@@ -142,4 +147,37 @@ public class DojoTest {
     //Selecciona un medio de envio con costo mayor al limite
     //Despliega inconsistencia de medio de pago
     //Vuelve a seleccion de medio de envio
+
+    @Test
+    public void seleccionBoleto_modificaEnvio_inconsistenciaMedioDePago_vuelveModificarEnvio() {
+
+        SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio();
+        SeleccionDeMedioDePago seleccionDeMedioDePago = (SeleccionDeMedioDePago) seleccionDeEnvio.envioADomicilio();
+
+        Boleto boleto = new Boleto(new BigDecimal(50000));
+        Review review = seleccionDeMedioDePago.seleccionar(boleto);
+
+        SeleccionDeEnvio modificarEnvio = review.modificarEnvio();
+
+        InconsistenciaDeMedioDePago inconsistenciaDeMedioDePago =
+                (InconsistenciaDeMedioDePago) modificarEnvio.expressADomicilio(boleto);
+
+        assert inconsistenciaDeMedioDePago.modificarEnvio().getClass().equals(modificarEnvio.getClass());
+    }
+
+    @Test
+    public void seleccionBoleto_modificaEnvioDesdeReview_eligeExpress_vuelveReview() {
+
+        SeleccionDeEnvio seleccionDeEnvio = new SeleccionDeEnvio();
+        SeleccionDeMedioDePago seleccionDeMedioDePago = (SeleccionDeMedioDePago) seleccionDeEnvio.envioADomicilio();
+
+        // TODO utilizar entidad Price
+        Boleto boleto = new Boleto(new BigDecimal(500));
+
+        Review review = seleccionDeMedioDePago.seleccionar(boleto);
+
+        SeleccionDeEnvio modificarEnvio = review.modificarEnvio();
+
+        assert modificarEnvio.expressADomicilio(boleto).getClass().equals(new Review().getClass());
+    }
 }
