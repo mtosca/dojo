@@ -24,6 +24,20 @@ public class DojoTest {
 
 El objetivo del ejercicio es evitar el uso de un flag booleano.
 
+### Conclusiones
+
+A lo largo del dojo nos topamos con distintos problemas que nos hicieron llegar a las siguientes conclusiones:
+
+- Capas de abstracción ahísladas: El servicio de Gateway (que nos dice si pedir o no SEC) debe existir en una capa de abstracción distina a la de los pasos (CheckoutStep).
+
+- Dar entidad a los conceptos del negocio: ```SeleccionDeMedioDePago```, ```SeleccionDeMedioDeEnvio```, ```Visa```, ```RedlinkATM```, etc.
+
+- Mitigar métodos ```isABC```: [Cómo?](https://github.com/diegosanchez/writting_ifs). [Porqué?](https://meli.facebook.com/groups/1600815993576388/2023747861283197/).
+
+- Test de Integración vs. Test Unitarios: Encontramos que los test de integración favorecieron el entendimiento del problema sumado a que permiten probar interacciones completas.
+
+- Favorece colaboración externa: Un integrante del equipo se sumó al dojo (luego de estar ausente) y tomando un código escrito por un tercero pudo retomar el desarrollo sin demoras.
+
 ### Metodología
 
 Programación orientada a objetos + TDD
