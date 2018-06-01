@@ -1,4 +1,5 @@
 package steps;
 
-public class MapaDeSucursales extends CheckoutStep{
+public class MapaDeSucursales implements CheckoutStep{
+
 }
